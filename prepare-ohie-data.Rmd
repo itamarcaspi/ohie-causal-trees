@@ -1,0 +1,41 @@
+---
+title: "Prepare OHIE data"
+author: "Itamar Caspi"
+date: "6 5 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(haven)
+library(here)
+library(causalTree)
+```
+
+```{r}
+descr <- 
+  here("data", "oregonhie_descriptive_vars.dta") %>% 
+  read_dta()
+
+prgm <- 
+  here("data", "oregonhie_stateprograms_vars.dta") %>% 
+  read_dta()
+
+s12 <- 
+  here("data", "oregonhie_survey12m_vars.dta") %>% 
+  read_dta()
+
+```
+
+```{r}
+df <- 
+  descr %>% 
+  left_join(prgm) %>% 
+  left_join(s12) %>% 
+  rename(enrolled = ohp_all_ever_firstn_30sep2009)
+```
+
